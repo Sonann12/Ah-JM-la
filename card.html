@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Greeting Card</title>
+  <style>
+    body {
+      font-family: Khmer OS Battambang, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #ffe4e1;
+      overflow: hidden;
+    }
+
+    .card {
+      background-color: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .message {
+      font-size: 24px;
+      margin-top: 20px;
+      display: none;
+      color: #d63384;
+    }
+
+    .heart {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: red;
+      transform: rotate(-45deg);
+      animation: float 3s infinite ease-in-out;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -15px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 15px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+      100% { transform: translateY(-800px) rotate(-45deg); opacity: 0; }
+    }
+
+    #stopBtn {
+      margin-top: 20px;
+      display: none;
+      padding: 10px 20px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 0 5px #ffccd5;
+    }
+
+    #stopBtn:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+  <!-- សម្លេង -->
+  <audio id="loveSound" src="mom.mp3"></audio>
+
+  <div class="card" onclick="showMessage()">
+    <h1>សំបុត្រអបអរសាទរ 🎉</h1>
+    <p>ចុចលើសំបុត្រនេះ</p>
+    <div class="message" id="message">I love you ah mom and ah tim 💖</div>
+  </div>
+
+  <!-- ប៊ូតុងបិទសម្លេង -->
+  <button id="stopBtn" onclick="stopSound()">បិទសម្លេង 🔇</button>
+
+  <script>
+    const audio = document.getElementById("loveSound");
+    const stopBtn = document.getElementById("stopBtn");
+
+    function showMessage() {
+      const msg = document.getElementById("message");
+      msg.style.display = "block";
+
+      // ចាប់ចាក់សម្លេង
+      audio.play();
+      stopBtn.style.display = "inline-block";
+
+      // បេះដូងលោតៗ
+      for (let i = 0; i < 100; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = "100vh";
+        heart.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 3000);
+      }
+    }
+
+    function stopSound() {
+      audio.pause();
+      audio.currentTime = 0;
+      stopBtn.style.display = "none";
+    }
+  </script>
+</body>
+</html>
